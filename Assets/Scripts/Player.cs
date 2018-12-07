@@ -11,8 +11,10 @@ public class Player : MonoBehaviour
 
     // designer variables
     public float speed = 10;
+    public float jumpSpeed = 10;
     public Rigidbody2D physicsBody;
     public string horizontalAxis = "Horizontal";
+    public string jumpButton = "Jump";
 
     public Animator playerAnimator;
     public SpriteRenderer playerSprite;
@@ -58,6 +60,32 @@ public class Player : MonoBehaviour
             playerSprite.flipX = false;
         }
 
-    }
+        // this will get our layer from our added layer ground and detects 
+        // if we are touching the ground
+        LayerMask groundLayerMask = LayerMask.GetMask("Ground");
 
+        // add a bool to see if we are infact touching ground 
+        bool touchingGround = playerCollider.IsTouchingLayers(groundLayerMask);
+
+        //detects input of jump button
+        bool jumpButtonPressed = Input.GetButtonDown(jumpButton);
+
+        // detects if player is touching ground 
+        if (jumpButtonPressed == true && touchingGround == true)
+        {
+            // after pressing jump we need to sort out the velocity
+            velocity.y = jumpSpeed;
+
+
+            // this adds velocity to the rigid body 
+            physicsBody.velocity = velocity;
+
+
+        }
+
+
+    }
 }
+
+
+
