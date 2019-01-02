@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     public SpriteRenderer playerSprite;
     public Collider2D playerCollider;
 
+
+    //variable to reference to the lives display
+    public LifeScript livesObject;
+
     // Use this for initialization
     void Start()
     {
@@ -84,16 +88,40 @@ public class Player : MonoBehaviour
         }
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Check the thing we bump into is an enemy
-        if (collision.collider.GetComponent<EnemyScript>())
-        {
-            // die
-            Destroy(gameObject);
-        }
+   
 
+    //this is for dealing with the players death
+    public void Kill()
+    {
+        //takes away lives and saves the changes made
+        livesObject.LoseLife();
+        livesObject.SaveLives();
+
+        //checks if its game over
+        bool gameOver = livesObject.isGameOver();
+
+
+        if (gameOver == true)
+        {
+            //if game is over load game over
+            SceneManager.LoadScene("GameOver");
+
+        }
+        else
+        {
+            // if it isnt game over...
+            // reset to beginning 
+
+
+            //check current level
+            Scene currentLevel = SceneManager.GetActiveScene();
+
+            //second tell unity to reload level
+            SceneManager.LoadScene(currentLevel.buildIndex);
+
+        }
     }
+
 }
 
  

@@ -10,7 +10,9 @@ public class StartButton : MonoBehaviour {
     {
         //this will load the 1st level
         SceneManager.LoadScene("Level 1");
-    
-		
-	}
+        //reset the lives 
+        PlayerPrefs.DeleteKey("lives");
+        
+
+    }
 }
